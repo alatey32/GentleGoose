@@ -9,3 +9,5 @@ Run my.py to start the game.
 space - Goose attack
 
 Q - Goose attack x5
+
+Gameplay video: https://www.youtube.com/watch?v=2KMhPKoYK_8
