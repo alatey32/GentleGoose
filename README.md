@@ -4,8 +4,8 @@ Game for Python310.
 
 Run my.py to start the game.
 
-<^>V - Goose moving
+<^>v - Goose moving
 
 space - Goose attack
 
-A - Goose attack x5
+Q - Goose attack x5
