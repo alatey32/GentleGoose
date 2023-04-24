@@ -1,7 +1,10 @@
 class Size:
-    def __init__(self, width, heigth):        
+    def __init__(self, width: int, heigth: int):
         self.width = width
         self.heigth = heigth
+
+    def toCoordinate(self):
+        return (self.width, self.heigth)
 
 class ggGameInfo:
     name = "Gentle Goose"
