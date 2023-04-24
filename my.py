@@ -45,8 +45,7 @@ main_surface = pygame.display.set_mode(engine.gameInfo.screen.toCoordinate())
     
 
 # setup player
-engine.player.resize(0.1)
-engine.player.rect = engine.player.surface.get_rect() #set screen start position and size on screen
+engine.player.init()
 
 bg = pygame.transform.scale(pygame.image.load('background.png').convert(), engine.gameInfo.screen.toCoordinate())
 bgX = 0;
@@ -132,8 +131,7 @@ while is_working:
     # draw 'ball'    
     main_surface.blit(engine.player.surface, engine.player.rect)
 
-    # draw scores    
-    main_surface.blit(font.render("Rakets: " + str(engine.destroyed_rakets) + " Tanks: " + str(engine.destroyed_tanks) + " Scores: " + str(scores), True, BLACK), (0, 0))
+    
     
     # draw and processing rockets
     for enemy in rockets:
@@ -278,6 +276,8 @@ while is_working:
             engine.player.resize(0.1 * scores)
                  
 
+    # draw scores    
+    main_surface.blit(font.render("Rakets: " + str(engine.destroyed_rakets) + " Tanks: " + str(engine.destroyed_tanks) + " Scores: " + str(scores), True, BLACK), (0, 0))
 
     # draw compleate
     pygame.display.flip()
