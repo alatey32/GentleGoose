@@ -1,9 +1,9 @@
 import pygame
 from pygame.constants import QUIT, K_DOWN, K_UP, K_LEFT, K_RIGHT, K_SPACE, K_q
-from ggGameInfo import *
-from ggGameObject import *
-from ggTexturesEngine import *
-from ggPlayer import *
+from gggame.ggGameInfo import *
+from gggame.ggGameObject import *
+from gggame.ggTexturesEngine import *
+from gggame.ggPlayer import *
 
 
 class GameEngine:

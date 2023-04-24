@@ -1,5 +1,5 @@
 from os import listdir
-from ggGameObject import *
+from gggame.ggGameObject import *
 
 class ggPlayer(ggGameObject):
     IMGS_PATH = 'goose'
