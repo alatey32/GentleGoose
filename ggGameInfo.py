@@ -8,7 +8,7 @@ class Size:
 
 class ggGameInfo:
     name = "Gentle Goose"
-    version = "1.0"
+    version = "1.1"
 
     def __init__(self):
         self.screen = Size(1024, 768)
