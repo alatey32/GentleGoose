@@ -3,10 +3,18 @@ import pygame
 from pygame.constants import QUIT, K_DOWN, K_UP, K_LEFT, K_RIGHT, K_SPACE, K_q
 from os import listdir
 import os
+from ggGameInfo import *
+from ggGameObject import *
+
+
+class GameEngine:
+    def __init__(self): 
+        self.gameInfo = ggGameInfo()
+
+engine = GameEngine()
 
 pygame.init()
-
-pygame.display.set_caption('Gentle Goose v 1.0')
+pygame.display.set_caption(engine.gameInfo.toString())
 
 #sound
 pygame.mixer.init() # add this line
@@ -18,7 +26,8 @@ crash_snd = pygame.mixer.Sound('crash.mp3')
 
 FPS = pygame.time.Clock()
 
-# screen = width, heigth = 800, 600
+
+# screen = width, heigth = 1024, 768
 screen = width, heigth = 1024, 768
 
 print(screen)
@@ -50,16 +59,6 @@ ball = player_imgs[img_index]
 # ball = my_load_texture('enemy.png', 0.5)
 ball_rect = ball.get_rect()     #set screen start position and size on screen
 ball_speed = 5                  #set move speed
-
-def create_enemy():
-    # setup enemy
-    enemy = my_load_texture('enemy.png', 0.5) # load texture
-    start_rect = enemy.get_rect()
-    enemy_creation_limit = start_rect.size[1]
-    enemy_rect = pygame.Rect(width, random.randint(enemy_creation_limit, heigth - (enemy_creation_limit * 2)), *start_rect.size)     #set start position and size on screen
-    # enemy_speed = random.randint(2, 5)                  #set move speed
-    enemy_speed = random.randint(4, 6)                  #set move speed
-    return [enemy, enemy_rect, enemy_speed]
 
 def create_enemy_tank():
     # setup enemy
@@ -96,7 +95,7 @@ scores = 0
 destroyed_tanks = 0
 destroyed_rakets = 0
 
-enemies = [] # enemy collection
+rockets = [] # enemy collection
 bonuses = [] # bonuses collection
 tanks = [] # bonuses collection
 bombas = [] 
@@ -134,7 +133,7 @@ while is_working:
             is_working = False
 
         elif event.type == CREATE_ENEMY:
-            enemies.append(create_enemy())
+            rockets.append(enemy_rocket(engine, my_load_texture('enemy.png', 0.5)))
 
         elif event.type == CREATE_BONUS:        
             bonuses.append(create_bonus())
@@ -177,21 +176,21 @@ while is_working:
     # draw scores    
     main_surface.blit(font.render("Rakets: " + str(destroyed_rakets) + " Tanks: " + str(destroyed_tanks) + " Scores: " + str(scores), True, BLACK), (0, 0))
     
-    # draw and processing enemies
-    for enemy in enemies:
-        enemy[1] = enemy[1].move(-enemy[2], 0) # move enemy
-        main_surface.blit(enemy[0], enemy[1])  # draw enemy
+    # draw and processing rockets
+    for enemy in rockets:
+        enemy.rect = enemy.rect.move(-enemy.speed, 0) # move enemy
+        main_surface.blit(enemy.surface, enemy.rect)  # draw enemy
         
-        # delete escaped enemies
-        if enemy[1].right < 0:
-            enemies.pop(enemies.index(enemy))
+        # delete escaped rockets
+        if enemy.rect.right < 0:
+            rockets.pop(rockets.index(enemy))
 
         # delete collision
-        if ball_rect.colliderect(enemy[1]):
+        if ball_rect.colliderect(enemy.rect):
             if(scores >= live_score):
                 pygame.mixer.Sound.play(crash_snd)
                 scores -= live_score
-                enemies.pop(enemies.index(enemy))
+                rockets.pop(rockets.index(enemy))
 
                 if(scores <= 0):
                     player_imgs = load_player_textures(0.1)
@@ -253,21 +252,22 @@ while is_working:
             bombas.pop(bombas.index(bomba))
         else:
             # destroing tanks
-            for tank in tanks:
-                if bomba[1].colliderect(tank[1]):
-                    pygame.mixer.Sound.play(exp_tank)
-                    destroyed_tanks += 1    
-                    bombas.pop(bombas.index(bomba))
-                    tanks.pop(tanks.index(tank))
+            if bomba in bombas:
+                for tank in tanks:
+                    if bomba[1].colliderect(tank[1]):
+                        pygame.mixer.Sound.play(exp_tank)
+                        destroyed_tanks += 1    
+                        bombas.pop(bombas.index(bomba))
+                        tanks.pop(tanks.index(tank))
 
             # destroing enemies
             if bomba in bombas:
-                for enemy in enemies:
-                    if bomba[1].colliderect(enemy[1]):
+                for enemy in rockets:
+                    if bomba[1].colliderect(enemy.rect):
                         pygame.mixer.Sound.play(exp_raket)
                         destroyed_rakets += 1
                         bombas.pop(bombas.index(bomba))
-                        enemies.pop(enemies.index(enemy))        
+                        rockets.pop(rockets.index(enemy))        
 
     # key control processing (WASD)
     pressed_keys = pygame.key.get_pressed()
