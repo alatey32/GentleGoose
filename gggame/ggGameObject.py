@@ -21,7 +21,8 @@ class enemy_rocket(ggGameObject):
         self.surface = engine.texturesEngine.load('enemy.png', 0.5)
         start_rect = self.surface.get_rect()
         enemy_creation_limit = start_rect.size[1]
-        self.rect = pygame.Rect(engine.gameInfo.screen.width, random.randint(enemy_creation_limit, engine.gameInfo.screen.heigth - (enemy_creation_limit * 2)), *start_rect.size)     #set start position and size on screen        
+        # self.rect = pygame.Rect(engine.gameInfo.screen.width, random.randint(enemy_creation_limit, engine.gameInfo.screen.heigth - (enemy_creation_limit * 2)), *start_rect.size) 
+        self.rect = pygame.Rect(engine.gameInfo.screen.width, random.randint(enemy_creation_limit, engine.gameInfo.screen.heigth - 200), *start_rect.size) 
         self.speed = random.randint(4, 6)                  #set move speed
         
 class enemy_tank(ggGameObject):
@@ -30,7 +31,8 @@ class enemy_tank(ggGameObject):
         self.surface = engine.texturesEngine.load('tank.png', 0.15) # load texture
         start_rect = self.surface.get_rect()
         enemy_creation_limit = start_rect.size[1]
-        self.rect = pygame.Rect(engine.gameInfo.screen.width, random.randint(engine.gameInfo.screen.heigth - (enemy_creation_limit * 2), engine.gameInfo.screen.heigth - enemy_creation_limit), *start_rect.size)     #set start position and size on screen
+        # self.rect = pygame.Rect(engine.gameInfo.screen.width, random.randint(engine.gameInfo.screen.heigth - (enemy_creation_limit * 2), engine.gameInfo.screen.heigth - enemy_creation_limit), *start_rect.size)
+        self.rect = pygame.Rect(engine.gameInfo.screen.width, random.randint(engine.gameInfo.screen.heigth - 190, engine.gameInfo.screen.heigth - 80), *start_rect.size)
         self.speed = random.randint(1, 3)                  #set move speed              #set move speed
 
 class bonus_brolly(ggGameObject):

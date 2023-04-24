@@ -30,6 +30,7 @@ bonus_sound = pygame.mixer.Sound('bonus.mp3')
 exp_raket = pygame.mixer.Sound('exp_raket.mp3')
 exp_tank = pygame.mixer.Sound('exp_tank.mp3')
 crash_snd = pygame.mixer.Sound('crash.mp3')
+lyap_snd = pygame.mixer.Sound('lyap.wav')
 
 FPS = pygame.time.Clock()
 
@@ -157,24 +158,7 @@ while is_working:
             else:
                 is_working = False
 
-    # draw and processing bonuses
-    for bonus in bonuses:
-        bonus.move(0, bonus.speed) # move bonus
-        main_surface.blit(bonus.surface, bonus.rect)  # draw bonus
-        
-        # delete escaped bonuses
-        if bonus.rect.top > engine.gameInfo.screen.heigth:
-            bonuses.pop(bonuses.index(bonus))
-
-        # bonus collision
-        if engine.player.colliderect(bonus):
-            pygame.mixer.Sound.play(bonus_sound)
-            bonuses.pop(bonuses.index(bonus)) # delete
-            scores += 1            
-            if(scores <= 0):
-                engine.player.resize(0.1)
-            else:
-                engine.player.resize(0.1 * scores)
+    
 
     # draw and processing tanks
     for tank in tanks:
@@ -206,6 +190,7 @@ while is_working:
         
         # delete escaped bombas
         if bomba.rect.top > engine.gameInfo.screen.heigth:
+            pygame.mixer.Sound.play(lyap_snd)
             bombas.pop(bombas.index(bomba))
         else:
             # destroing tanks
@@ -275,6 +260,25 @@ while is_working:
         else:
             engine.player.resize(0.1 * scores)
                  
+
+    # draw and processing bonuses
+    for bonus in bonuses:
+        bonus.move(0, bonus.speed) # move bonus
+        main_surface.blit(bonus.surface, bonus.rect)  # draw bonus
+        
+        # delete escaped bonuses
+        if bonus.rect.top > engine.gameInfo.screen.heigth:
+            bonuses.pop(bonuses.index(bonus))
+
+        # bonus collision
+        if engine.player.colliderect(bonus):
+            pygame.mixer.Sound.play(bonus_sound)
+            bonuses.pop(bonuses.index(bonus)) # delete
+            scores += 1            
+            if(scores <= 0):
+                engine.player.resize(0.1)
+            else:
+                engine.player.resize(0.1 * scores)
 
     # draw scores    
     main_surface.blit(font.render("Rakets: " + str(engine.destroyed_rakets) + " Tanks: " + str(engine.destroyed_tanks) + " Scores: " + str(scores), True, BLACK), (0, 0))
