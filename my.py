@@ -70,7 +70,7 @@ pygame.time.set_timer(CREATE_BONUS, 1500)
 
 # change player image
 CHANGE_IMG = pygame.USEREVENT + 3
-pygame.time.set_timer(CHANGE_IMG, 125)
+pygame.time.set_timer(CHANGE_IMG, 100)
 
 CREATE_TANK = pygame.USEREVENT + 4
 pygame.time.set_timer(CREATE_TANK, 1500)
